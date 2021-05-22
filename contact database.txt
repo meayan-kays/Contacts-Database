@@ -1,0 +1,41 @@
+****  Create contact Database ****
+use contact
+
+**** Create contactlist Collection ****
+db.createCollection("contactlist")
+
+**** Insert Documents in contactlist Collection ****
+db.contactlist.insertMany([
+	{lastName: "Ben Lahmer", firstName: "Fares", email: "fares@gmail.com", age: 26},
+	{lastName: "Kefi", firstName: "Seif", email: "kefi@gmail.com", age: 15},
+	{lastName: "Fatnassi", firstName: "Sarra", email: "sarra.f@gmail.com", age: 40},
+	{lastName: "Ben Yahia", firstName: "Rym", age: 4},
+	{lastName: "Cherif", firstName: "Sami", age: 3}
+])
+
+
+**** Display all of the contacts list ****
+db.contactlist.find().pretty()
+
+**** Display all the information about only one person by using his ID ****
+db.contactlist.find({_id: ObjectId("60a8d9c83e229e1257f82dff")})
+
+**** Display all the contact list having age > 18 ****
+db.contactlist.find({age: {$gt: 18}}).pretty()
+
+**** Display all the contact list having age>18 and name containing "ah" ****
+db.contactlist.find({
+  $and: [
+	{age: {$gt: 18}},
+		{lastName: {$regex: /ah/}}
+	]
+}).pretty()
+
+**** Change the contact first name of "Kefi Seif" by "Kefi Anis" ****
+db.contactlist.update({firstName:"Seif"}, {$set: {firstName: "Anis"}})
+
+**** Delete the contacts that are aged under 5 ****
+db.contactlist.deleteMany({age: {$lt: 5}})
+
+**** Display all of the contacts list ****
+db.contactlist.find().pretty()
